@@ -1,0 +1,74 @@
+require("dotenv").config();
+var jwt = require("jsonwebtoken");
+var { Sequelize, DataTypes } = require("sequelize");
+const { hashPassword } = require("../utils/hashPassword");
+
+const User = (sequelize) => {
+  class User extends Sequelize.Model {}
+  User.init(
+    {
+      id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      email: {
+        type: Sequelize.DataTypes.STRING(50),
+        allowNull: false,
+        unique: true,
+      },
+      fullname: {
+        type: Sequelize.DataTypes.STRING(50),
+        allowNull: false,
+      },
+      age: {
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      avatar: {
+        type: Sequelize.DataTypes.STRING(50),
+      },
+      sex: {
+        type: Sequelize.DataTypes.BOOLEAN,
+      },
+      identify_number: {
+        type: Sequelize.DataTypes.STRING(20),
+      },
+      password: {
+        type: Sequelize.DataTypes.STRING,
+      },
+      address: {
+        type: Sequelize.DataTypes.STRING,
+      },
+    },
+    {
+      sequelize,
+      modelName: "users",
+    }
+  );
+
+  User.associate = ({ models }) => {
+    User.hasMany(models.user_addresses, {
+      foreignKey: "user_id",
+    });
+  };
+
+  User.addHook("beforeCreate", async (user, options) => {
+    const exist = await User.findOne({ where: { email: user.email } });
+    if (exist) {
+      throw new Error("Already exists");
+    }
+    var hash = await hashPassword(user.password);
+    user.password = hash;
+  });
+
+  User.addHook("beforeUpdate", async (user, options) => {
+    var hash = await hashPassword(user.password);
+    user.password = hash;
+  });
+
+  return User;
+};
+
+// sequelize.sync();
+
+module.exports = User;
