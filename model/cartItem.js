@@ -10,7 +10,7 @@ const CartItem = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      cart_id: {
+      user_id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
@@ -34,7 +34,7 @@ const CartItem = (sequelize) => {
   );
 
   CartItem.associate = ({ models }) => {
-    CartItem.belongsTo(models.user_carts, {
+    CartItem.belongsTo(models.users, {
       foreignKey: "cart_id",
       targetKey: "id",
     });

@@ -31,6 +31,9 @@ const Cart = (sequelize) => {
       shipping_method_id: {
         type: Sequelize.DataTypes.INTEGER,
       },
+      card_id: {
+        type: Sequelize.DataTypes.INTEGER,
+      }
     },
     {
       sequelize,

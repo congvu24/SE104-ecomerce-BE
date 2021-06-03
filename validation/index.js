@@ -49,6 +49,19 @@ const variantSchema = Joi.object({
   price: Joi.number().required(),
 });
 
+const cartItem = Joi.object({
+  product_id: Joi.number().integer().required(),
+  variant_id: Joi.number().integer().required(),
+  number: Joi.number().integer().required(),
+});
+
+const cartCheckout = Joi.object({
+  address: Joi.number().integer().required(),
+  discount_id: Joi.number().integer(),
+  shipping_method_id: Joi.number().required(),
+  card_id: Joi.number().required(),
+});
+
 module.exports = {
   registerUserSchema,
   loginSchema,
@@ -56,4 +69,6 @@ module.exports = {
   categorySchema,
   productSchema,
   variantSchema,
+  cartItem,
+  cartCheckout
 };

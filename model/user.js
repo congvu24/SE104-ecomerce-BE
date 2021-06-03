@@ -50,9 +50,12 @@ const User = (sequelize) => {
     User.hasMany(models.user_addresses, {
       foreignKey: "user_id",
     });
+    User.hasMany(models.cart_items, {
+      foreignKey: "user_id",
+    });
   };
 
-  User.addHook("beforeCreate", async (user, options) => {
+  User.addHook("beforeCreate", async (user) => {
     const exist = await User.findOne({ where: { email: user.email } });
     if (exist) {
       throw new Error("Already exists");
@@ -61,7 +64,7 @@ const User = (sequelize) => {
     user.password = hash;
   });
 
-  User.addHook("beforeUpdate", async (user, options) => {
+  User.addHook("beforeUpdate", async (user) => {
     var hash = await hashPassword(user.password);
     user.password = hash;
   });

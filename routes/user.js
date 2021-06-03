@@ -17,5 +17,6 @@ router.get("/profile", authenticateToken, getProfile);
 // router.get("/shoping-history", createUser);
 router.post("/add-address", authenticateToken, addAddress);
 router.delete("/delete-address/:id", authenticateToken, deleteAddress);
+router.get("/orders") // get order history of user
 
 module.exports = router;
