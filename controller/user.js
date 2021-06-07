@@ -1,10 +1,11 @@
-const { User, Address } = require("../model");
+const { User, Address, Card, CardType, Cart } = require("../model");
 var jwt = require("jsonwebtoken");
 const { comparePassword } = require("../utils/hashPassword");
 const {
   registerUserSchema,
   loginSchema,
   addressSchema,
+  cardSchema,
 } = require("../validation");
 const Joi = require("joi");
 
@@ -143,10 +144,114 @@ const deleteAddress = async (req, res, next) => {
   }
 };
 
+const addCard = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const value = await cardSchema.validateAsync({
+      ...req.body,
+    });
+
+    const newCard = await Card.create({
+      ...value,
+      user_id: user_id,
+    });
+
+    res.json({
+      status: "success",
+      message: "Create card successfull",
+      data: newCard.id,
+    });
+  } catch (err) {
+    res.status(442).json({
+      status: "failed",
+      message: err.message ?? "Create card failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
+const removeCard = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const id = req.params.id;
+
+    const newCard = await Card.destroy({
+      where: {
+        user_id: user_id,
+        id: id,
+      },
+    });
+
+    res.json({
+      status: "success",
+      message: "Remove card successfull",
+      data: {},
+    });
+  } catch (err) {
+    res.status(442).json({
+      status: "failed",
+      message: err.message ?? "Remove card failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
+const getAllCard = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+
+    const cards = await Card.findAll({
+      where: {
+        user_id: user_id,
+      },
+      attributes: ["number", "id"],
+      include: [{ model: CardType, as: "card_type" }],
+      nest: true,
+    });
+
+    res.json({
+      status: "success",
+      message: "Remove card successfull",
+      data: cards,
+    });
+  } catch (err) {
+    res.status(442).json({
+      status: "failed",
+      message: err.message ?? "Remove card failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
+const getAllOrder = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const orders = await Cart.findAll({
+      where: { user_id: user_id },
+    });
+    res.json({
+      status: "success",
+      message: "Get order success!",
+      data: orders,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "failed",
+      message: "Get order failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
 module.exports = {
   createUser,
   login,
   getProfile,
   addAddress,
   deleteAddress,
+  addCard,
+  removeCard,
+  getAllCard,
+  getAllOrder,
 };

@@ -11,7 +11,7 @@ const CardType = (sequelize) => {
         autoIncrement: true,
       },
       name: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.DataTypes.STRING,
       },
       fee: {
         type: Sequelize.DataTypes.FLOAT,

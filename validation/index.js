@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const moment = require("moment");
 
 const registerUserSchema = Joi.object({
   fullname: Joi.string().min(3).max(30).required(),
@@ -62,6 +63,29 @@ const cartCheckout = Joi.object({
   card_id: Joi.number().required(),
 });
 
+const shippingMethod = Joi.object({
+  name: Joi.string().required(),
+  description: Joi.string(),
+});
+
+const cardType = Joi.object({
+  name: Joi.string().required(),
+  fee: Joi.number().required(),
+});
+
+const discount = Joi.object({
+  percentage: Joi.number().min(0).max(1).required(),
+  code: Joi.string().required(),
+  exp: Joi.string().required(),
+  number: Joi.number().integer(),
+});
+
+const cardSchema = Joi.object({
+  card_type_id: Joi.number().integer().required(),
+  cvv: Joi.number().integer().required(),
+  number: Joi.string().required(),
+});
+
 module.exports = {
   registerUserSchema,
   loginSchema,
@@ -70,5 +94,9 @@ module.exports = {
   productSchema,
   variantSchema,
   cartItem,
-  cartCheckout
+  cartCheckout,
+  shippingMethod,
+  cardType,
+  discount,
+  cardSchema
 };

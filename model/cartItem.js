@@ -14,6 +14,9 @@ const CartItem = (sequelize) => {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
+      cart_id: {
+        type: Sequelize.DataTypes.INTEGER,
+      },
       product_id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
@@ -35,6 +38,10 @@ const CartItem = (sequelize) => {
 
   CartItem.associate = ({ models }) => {
     CartItem.belongsTo(models.users, {
+      foreignKey: "user_id",
+      targetKey: "id",
+    });
+    CartItem.belongsTo(models.user_carts, {
       foreignKey: "cart_id",
       targetKey: "id",
     });

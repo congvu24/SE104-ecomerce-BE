@@ -32,9 +32,9 @@ var sequelize = new Sequelize(
 const db = {
   Address: Address(sequelize),
   User: User(sequelize),
-  Card: CardType(sequelize),
-  CardType: Card(sequelize),
+  CardType: CardType(sequelize),
   Cart: Cart(sequelize),
+  Card: Card(sequelize),
   CartItem: CartItem(sequelize),
   Category: Category(sequelize),
   Discount: Discount(sequelize),

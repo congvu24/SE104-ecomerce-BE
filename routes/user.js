@@ -5,6 +5,10 @@ const {
   getProfile,
   addAddress,
   deleteAddress,
+  removeCard,
+  getAllCard,
+  addCard,
+  getAllOrder,
 } = require("../controller/user");
 const authenticateToken = require("../middleware/authMiddleware");
 var router = express.Router();
@@ -17,6 +21,10 @@ router.get("/profile", authenticateToken, getProfile);
 // router.get("/shoping-history", createUser);
 router.post("/add-address", authenticateToken, addAddress);
 router.delete("/delete-address/:id", authenticateToken, deleteAddress);
-router.get("/orders") // get order history of user
+router.get("/orders", authenticateToken, getAllOrder); // get order history of user
+
+router.post("/card", authenticateToken, addCard);
+router.get("/card", authenticateToken, getAllCard);
+router.delete("/card/:id", authenticateToken, removeCard);
 
 module.exports = router;
