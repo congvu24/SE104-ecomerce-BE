@@ -9,6 +9,9 @@ var cardRouter = require("./cardType");
 var discountRouter = require("./discount");
 var cartRouter = require("./cart")
 
+router.get("/", (req, res, next)=>{
+    res.send('hello');
+})
 router.use("/user", userRouter);
 router.use("/category", categoryRouter);
 router.use("/product", productRouter);
