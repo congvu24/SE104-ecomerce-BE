@@ -7,8 +7,11 @@ var shopRouter = require("./shop");
 var shippingRouter = require("./shippingMethod");
 var cardRouter = require("./cardType");
 var discountRouter = require("./discount");
-var cartRouter = require("./cart")
+var cartRouter = require("./cart");
 
+router.get("/", (req, res, next) => {
+  res.send("hi");
+});
 router.use("/user", userRouter);
 router.use("/category", categoryRouter);
 router.use("/product", productRouter);
