@@ -14,6 +14,8 @@ const {
 } = require("../controller/product");
 
 const authenticateToken = require("../middleware/authMiddleware");
+const adminAuth = require("../middleware/adminAuthMiddleware");
+
 var router = express.Router();
 
 var storage = multer.diskStorage({
@@ -27,20 +29,15 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.get("/:id", getProductDetail);
-router.get("/", getProducts);
+router.get("/:id", adminAuth, getProductDetail);
+router.get("/", adminAuth, getProducts);
 
-router.post("/create", authenticateToken, createProduct);
-router.put("/edit", authenticateToken, editProduct);
-router.delete("/delete/:id", authenticateToken, deleteProduct);
-router.post("/:id/add-variant", authenticateToken, addVariant);
-router.delete("/:id/delete-variant", authenticateToken, deleteVariant);
-router.post(
-  "/image",
-  authenticateToken,
-  upload.single("image"),
-  uploadProductImage
-);
-router.delete("/image/:filename", authenticateToken, deleteProductImage);
+router.post("/create", adminAuth, createProduct);
+router.put("/edit", adminAuth, editProduct);
+router.delete("/delete/:id", adminAuth, deleteProduct);
+router.post("/:id/add-variant", adminAuth, addVariant);
+router.delete("/:id/delete-variant", adminAuth, deleteVariant);
+router.post("/image", adminAuth, upload.single("image"), uploadProductImage);
+router.delete("/image/:filename", adminAuth, deleteProductImage);
 
 module.exports = router;

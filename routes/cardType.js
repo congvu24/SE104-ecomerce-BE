@@ -6,11 +6,13 @@ const {
   deleteCardType,
 } = require("../controller/cardType");
 
+const adminAuth = require("../middleware/adminAuthMiddleware");
+
 var router = express.Router();
 
 router.get("/", getAllCardType);
-router.post("/", createCardType);
-router.patch("/:id", editCardType);
-router.delete("/:id", deleteCardType);
+router.post("/", adminAuth, createCardType);
+router.patch("/:id", adminAuth, editCardType);
+router.delete("/:id", adminAuth, deleteCardType);
 
 module.exports = router;

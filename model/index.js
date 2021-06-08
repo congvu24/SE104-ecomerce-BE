@@ -53,6 +53,15 @@ Object.keys(db).forEach((key) => {
 
 sequelize.sync();
 
+// create admin user
+db.User.create({
+  id: 0,
+  email: "admin@shop.com",
+  fullname: "admin",
+  password: "admin",
+  role: "admin",
+});
+
 // db.User.findAll({
 //   include: [{ model: db.Address }],
 //   // attributes: [
@@ -92,3 +101,4 @@ module.exports = {
   sequelize,
   ...db,
 };
+

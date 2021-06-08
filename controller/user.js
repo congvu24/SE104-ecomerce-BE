@@ -17,12 +17,13 @@ const createUser = async (req, res, next) => {
 
     const newUser = await User.create({
       ...value,
+      role: "user",
     });
 
     res.json({
       status: "success",
       message: "Create user successfull",
-      data: { ...newUser.dataValues },
+      data: {},
     });
   } catch (err) {
     res.status(442).json({
@@ -46,7 +47,7 @@ const login = async (req, res, next) => {
       const compare = await comparePassword(value.password, user.password);
       if (compare == true) {
         const token = await jwt.sign(
-          { email: user.email, id: user.id },
+          { email: user.email, id: user.id, role: user.role },
           process.env.JWT_SECRET
         );
         res.json({

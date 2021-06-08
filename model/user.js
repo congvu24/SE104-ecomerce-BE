@@ -39,6 +39,11 @@ const User = (sequelize) => {
       address: {
         type: Sequelize.DataTypes.STRING,
       },
+      role: {
+        type: Sequelize.DataTypes.STRING,
+        default: "user",
+        allowNull: false
+      },
     },
     {
       sequelize,
