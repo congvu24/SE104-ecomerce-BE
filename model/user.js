@@ -41,9 +41,15 @@ const User = (sequelize) => {
       },
       role: {
         type: Sequelize.DataTypes.STRING,
-        default: "user",
+        defagitult: "user",
         allowNull: false
       },
+      resetToken: {
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      lastAccess: {
+        type: Sequelize.DataTypes.STRING
+      }
     },
     {
       sequelize,
