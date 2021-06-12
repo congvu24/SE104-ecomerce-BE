@@ -6,9 +6,21 @@ const Joi = require("joi");
 const getProducts = async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [ProductVariant],
+      include: [ProductVariant, { model: ProductImage, as: "images" }],
       nest: true,
     });
+
+    // await products.forEach(async (item) => {
+    //   const imageList = await ProductImage.findAll({
+    //     where: {
+    //       product_id: item.id,
+    //     },
+    //     nest: true,
+    //   });
+    //   item.images = imageList;
+    // });
+
+    // console.log(products)
 
     res.json({
       status: "success",
@@ -154,6 +166,7 @@ const deleteVariant = async (req, res, next) => {
 };
 
 const uploadProductImage = async (req, res, next) => {
+  console.log(req.err);
   try {
     const file = req.file;
     res.json({

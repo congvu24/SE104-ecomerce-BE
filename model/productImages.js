@@ -30,6 +30,19 @@ const ProductImage = (sequelize) => {
       targetKey: "id",
     });
   };
+
+  ProductImage.addHook("afterFind", async (result, cb) => {
+    if (result.constructor === Array) {
+      var arrayLength = result.length;
+      for (var i = 0; i < arrayLength; i++) {
+        result[i].dataValues.link = "/image/" + result[i].name;
+      }
+    } else {
+      result[i].dataValues.link = "/image/" + result[i].name;
+    }
+    return result;
+  });
+
   return ProductImage;
 };
 

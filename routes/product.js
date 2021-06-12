@@ -27,7 +27,26 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage: storage });
+function uploadFile(req, res, next) {
+  var upload = multer({
+    storage: storage,
+    onError: function (err) {
+      console.log("error", err);
+      next({ status: false });
+    },
+  }).single("image");
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log(err);
+      res.status(500).json({ status: "failed", message: "Error occurred!" });
+    } else if (err) {
+      console.log(err);
+      res.status(500).json({ status: "failed", message: "Error occurred!" });
+    }
+    next();
+  });
+}
 
 router.get("/:id", adminAuth, getProductDetail);
 router.get("/", adminAuth, getProducts);
@@ -37,7 +56,8 @@ router.put("/edit", adminAuth, editProduct);
 router.delete("/delete/:id", adminAuth, deleteProduct);
 router.post("/:id/add-variant", adminAuth, addVariant);
 router.delete("/:id/delete-variant", adminAuth, deleteVariant);
-router.post("/image", adminAuth, upload.single("image"), uploadProductImage);
+router.post("/image", uploadFile, uploadProductImage);
+
 router.delete("/image/:filename", adminAuth, deleteProductImage);
 
 module.exports = router;
