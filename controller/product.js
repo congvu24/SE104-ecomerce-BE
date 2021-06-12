@@ -62,8 +62,6 @@ const getProductDetail = async (req, res, next) => {
 };
 
 const createProduct = async (req, res, next) => {
-  console.log(req.body.image);
-
   try {
     const value = await productSchema.validateAsync({
       ...req.body,
@@ -84,7 +82,6 @@ const createProduct = async (req, res, next) => {
       data: { ...newProduct.dataValues },
     });
   } catch (err) {
-    console.log(err);
 
     res.status(442).json({
       status: "failed",
@@ -166,13 +163,12 @@ const deleteVariant = async (req, res, next) => {
 };
 
 const uploadProductImage = async (req, res, next) => {
-  console.log(req.err);
   try {
     const file = req.file;
     res.json({
       status: "success",
       message: "Upload product image success!",
-      data: { filename: "/image/" + file.filename },
+      data: { filename: file.filename },
     });
   } catch (err) {
     res.status(500).json({

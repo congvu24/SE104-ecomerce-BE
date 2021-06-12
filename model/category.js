@@ -17,6 +17,9 @@ const Category = (sequelize) => {
       description: {
         type: Sequelize.DataTypes.STRING,
       },
+      image: {
+        type: Sequelize.DataTypes.STRING,
+      }
     },
     {
       sequelize,

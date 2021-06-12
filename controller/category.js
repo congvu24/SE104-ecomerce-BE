@@ -47,8 +47,28 @@ const deleteCategory = async (req, res, next) => {
 
 const editCategory = async (req, res, next) => {};
 
+
+const uploadCategoryImage = async (req, res, next) => {
+  try {
+    const file = req.file;
+    res.json({
+      status: "success",
+      message: "Upload category image success!",
+      data: { filename: file.filename },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "failed",
+      message: "Upload category image failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
+
 module.exports = {
   createCategory,
   editCategory,
   deleteCategory,
+  uploadCategoryImage
 };

@@ -5,6 +5,7 @@ const {
   editDiscount,
   deleteDiscount,
 } = require("../controller/dicount");
+
 const adminAuth = require("../middleware/adminAuthMiddleware");
 
 var router = express.Router();

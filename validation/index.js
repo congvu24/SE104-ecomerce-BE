@@ -34,12 +34,15 @@ const addressSchema = Joi.object({
 const categorySchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string(),
+  image: Joi.string(),
 });
 
 const productSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string(),
   category_id: Joi.number().required(),
+  content: Joi.string(),
+  unit: Joi.string(),
   images: Joi.array().items({ name: Joi.string() }),
 });
 
@@ -48,6 +51,7 @@ const variantSchema = Joi.object({
   product_id: Joi.number().integer().required(),
   stock: Joi.number().integer().required(),
   price: Joi.number().required(),
+  cost_price: Joi.number()
 });
 
 const cartItem = Joi.object({

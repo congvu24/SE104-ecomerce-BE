@@ -25,6 +25,9 @@ const ProductVariant = (sequelize) => {
         type: Sequelize.DataTypes.FLOAT,
         allowNull: false,
       },
+      cost_price: {
+        type: Sequelize.DataTypes.FLOAT,
+      },
     },
     {
       sequelize,
@@ -38,7 +41,7 @@ const ProductVariant = (sequelize) => {
       targetKey: "id",
     });
   };
-  
+
   return ProductVariant;
 };
 
