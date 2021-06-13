@@ -44,6 +44,6 @@ function uploadFile(req, res, next) {
 router.post("/create", authenticateToken, adminAuth, createCategory);
 router.put("/edit", authenticateToken, adminAuth, editCategory);
 router.delete("/delete/:id", authenticateToken, adminAuth, deleteCategory);
-router.post("/image", authenticateToken, adminAuth, uploadFile, uploadCategoryImage);
+router.post("/image", uploadFile, uploadCategoryImage);
 
 module.exports = router;
