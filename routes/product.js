@@ -11,6 +11,8 @@ const {
   getProducts,
   uploadProductImage,
   deleteProductImage,
+  editProductVariant,
+  addProductImage,
 } = require("../controller/product");
 
 const authenticateToken = require("../middleware/authMiddleware");
@@ -50,14 +52,14 @@ function uploadFile(req, res, next) {
 
 router.get("/:id", adminAuth, getProductDetail);
 router.get("/", adminAuth, getProducts);
-
 router.post("/create", adminAuth, createProduct);
-router.put("/edit", adminAuth, editProduct);
+router.patch("/:id", adminAuth, editProduct);
+router.post("/:id/add-image", adminAuth, addProductImage);
 router.delete("/delete/:id", adminAuth, deleteProduct);
 router.post("/:id/add-variant", adminAuth, addVariant);
 router.delete("/:id/delete-variant", adminAuth, deleteVariant);
+router.patch("/:id/edit-variant/:variantID", adminAuth, editProductVariant);
 router.post("/image", uploadFile, uploadProductImage);
-
 router.delete("/image/:filename", adminAuth, deleteProductImage);
 
 module.exports = router;

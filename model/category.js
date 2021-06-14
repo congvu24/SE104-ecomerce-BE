@@ -33,6 +33,19 @@ const Category = (sequelize) => {
     });
   };
 
+  Category.addHook("afterFind", async (result, cb) => {
+    if (result.constructor === Array) {
+      var arrayLength = result.length;
+      for (var i = 0; i < arrayLength; i++) {
+        if(result[i].image != null)
+        result[i].dataValues.image = "/image/category/" + result[i].image;
+      }
+    } else {
+      result.dataValues.image = "/image/category/" + result.image;
+    }
+    return result;
+  });
+
   return Category;
 };
 

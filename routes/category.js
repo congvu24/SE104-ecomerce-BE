@@ -4,8 +4,9 @@ const {
   editCategory,
   deleteCategory,
   uploadCategoryImage,
+  getCategory,
 } = require("../controller/category");
-const multer = require("multer")
+const multer = require("multer");
 
 const adminAuth = require("../middleware/adminAuthMiddleware");
 const authenticateToken = require("../middleware/authMiddleware");
@@ -41,8 +42,9 @@ function uploadFile(req, res, next) {
   });
 }
 
+router.get("/", authenticateToken, adminAuth, getCategory);
 router.post("/create", authenticateToken, adminAuth, createCategory);
-router.put("/edit", authenticateToken, adminAuth, editCategory);
+router.patch("/:id", authenticateToken, adminAuth, editCategory);
 router.delete("/delete/:id", authenticateToken, adminAuth, deleteCategory);
 router.post("/image", uploadFile, uploadCategoryImage);
 
