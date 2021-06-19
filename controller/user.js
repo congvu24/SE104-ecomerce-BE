@@ -24,7 +24,6 @@ const createUser = async (req, res, next) => {
       { email: newUser.email, id: newUser.id, role: newUser.role },
       process.env.JWT_SECRET
     );
-
     res.json({
       status: "success",
       message: "Create user successfull",
@@ -80,7 +79,7 @@ const getProfile = async (req, res, next) => {
         "id",
         "email",
         "fullname",
-        "age",
+        "birthYear",
         "avatar",
         "sex",
         "identify_number",
