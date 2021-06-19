@@ -20,10 +20,15 @@ const createUser = async (req, res, next) => {
       role: "user",
     });
 
+    const token = await jwt.sign(
+      { email: newUser.email, id: newUser.id, role: newUser.role },
+      process.env.JWT_SECRET
+    );
+
     res.json({
       status: "success",
       message: "Create user successfull",
-      data: {},
+      data: { token },
     });
   } catch (err) {
     res.status(442).json({

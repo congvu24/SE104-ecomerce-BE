@@ -21,9 +21,6 @@ const User = (sequelize) => {
         type: Sequelize.DataTypes.STRING(50),
         allowNull: false,
       },
-      age: {
-        type: Sequelize.DataTypes.INTEGER,
-      },
       avatar: {
         type: Sequelize.DataTypes.STRING(50),
       },
@@ -41,15 +38,19 @@ const User = (sequelize) => {
       },
       role: {
         type: Sequelize.DataTypes.STRING,
-        defagitult: "user",
-        allowNull: false
+        defaultValue: "user",
+        allowNull: false,
+      },
+      birthYear: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
       },
       resetToken: {
         type: Sequelize.DataTypes.INTEGER,
       },
       lastAccess: {
-        type: Sequelize.DataTypes.STRING
-      }
+        type: Sequelize.DataTypes.STRING,
+      },
     },
     {
       sequelize,

@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const registerUserSchema = Joi.object({
   fullname: Joi.string().min(3).max(30).required(),
-  age: Joi.number().integer().min(10).max(100).required(),
+  birthYear: Joi.number().integer().min(1980).max(2021).required(),
   avatar: Joi.string(),
   sex: Joi.number().integer().min(0).max(2).required(),
   identify_number: Joi.string().min(8).max(20).required(),
