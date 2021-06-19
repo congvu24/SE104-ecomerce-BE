@@ -19,11 +19,18 @@ const createUser = async (req, res, next) => {
       ...value,
       role: "user",
     });
+    const defaultAddress = await Address.create({
+      user_id: newUser.id,
+      name: "Default Address",
+      address: value.address,
+      phone: value.phone,
+    });
 
     const token = await jwt.sign(
       { email: newUser.email, id: newUser.id, role: newUser.role },
       process.env.JWT_SECRET
     );
+
     res.json({
       status: "success",
       message: "Create user successfull",

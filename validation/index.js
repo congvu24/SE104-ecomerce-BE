@@ -9,6 +9,7 @@ const registerUserSchema = Joi.object({
   identify_number: Joi.string().min(8).max(20).required(),
   password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")).required(),
   address: Joi.string().required(),
+  phone: Joi.string().required(),
   email: Joi.string()
     .email({
       minDomainSegments: 2,

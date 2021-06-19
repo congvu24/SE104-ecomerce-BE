@@ -36,6 +36,9 @@ const User = (sequelize) => {
       address: {
         type: Sequelize.DataTypes.STRING,
       },
+      phone: {
+        type: Sequelize.DataTypes.STRING,
+      },
       role: {
         type: Sequelize.DataTypes.STRING,
         defaultValue: "user",
