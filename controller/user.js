@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
 
 const getProfile = async (req, res, next) => {
   try {
-    const user = await User.findAll({
+    const user = await User.findOne({
       attributes: [
         "id",
         "email",
