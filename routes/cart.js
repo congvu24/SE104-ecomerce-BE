@@ -5,6 +5,7 @@ const {
   editItemInCart,
   deleteItemInCart,
   checkoutCart,
+  cancelOrder
 } = require("../controller/cart");
 const authenticateToken = require("../middleware/authMiddleware");
 
@@ -15,5 +16,6 @@ router.post("/", authenticateToken, addItemToCart); //add new item to cart and c
 router.patch("/", authenticateToken, editItemInCart); // modify number and variant of product in cart
 router.delete("/:product_id/:variant_id", authenticateToken, deleteItemInCart); // modify number and variant of product in cart
 router.post("/checkout", authenticateToken, checkoutCart); // checkout current cart;
+router.patch("/cancel/:id", authenticateToken, cancelOrder); // modify number and variant of product in cart
 
 module.exports = router;

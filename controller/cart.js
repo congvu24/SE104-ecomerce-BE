@@ -215,10 +215,43 @@ const checkoutCart = async (req, res, next) => {
       data: cart,
     });
   } catch (err) {
-    console.log(err)
     res.status(442).json({
       status: "failed",
       message: err.message ?? "Checkout item failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
+const cancelOrder = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const userId = req.user.id;
+
+    const cart = await Cart.findOne({
+      where: {
+        id,
+        user_id: userId,
+      },
+    });
+    // pending, confirm, success, cancel
+    if (cart) {
+      if (cart.status == "pending") {
+        cart.status = "cancel";
+        await cart.save();
+        res.json({
+          status: "success",
+          message: "Cancel cart successfull",
+          data: cart,
+        });
+      } else {
+        throw new Error("Can't cancel this cart");
+      }
+    }
+  } catch (err) {
+    res.status(442).json({
+      status: "failed",
+      message: err.message ?? "Cancel cart failed!",
       data: err.details ?? {},
     });
   }
@@ -230,4 +263,5 @@ module.exports = {
   deleteItemInCart,
   getCartItems,
   checkoutCart,
+  cancelOrder
 };
