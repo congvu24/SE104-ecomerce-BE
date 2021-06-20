@@ -257,11 +257,47 @@ const cancelOrder = async (req, res, next) => {
   }
 };
 
+const orderStatus = ["pending", "confirm", "success", "cancel"];
+const changeOrderStatus = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const {status} = req.body;
+    if (orderStatus.indexOf(status) < 0) {
+      throw new Error("Status not allowed");
+    }
+
+    const cart = await Cart.findOne({
+      where: {
+        id,
+      },
+    });
+    // pending, confirm, success, cancel
+    if (cart) {
+      cart.status = status;
+      await cart.save();
+      res.json({
+        status: "success",
+        message: "Update cart status successfull",
+        data: cart,
+      });
+    } else {
+      throw new Error("Can't Update cart status");
+    }
+  } catch (err) {
+    res.status(442).json({
+      status: "failed",
+      message: err.message ?? "Update cart status failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
 module.exports = {
   addItemToCart,
   editItemInCart,
   deleteItemInCart,
   getCartItems,
   checkoutCart,
-  cancelOrder
+  cancelOrder,
+  changeOrderStatus
 };
