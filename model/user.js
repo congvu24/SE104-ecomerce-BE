@@ -68,6 +68,9 @@ const User = (sequelize) => {
     User.hasMany(models.cart_items, {
       foreignKey: "user_id",
     });
+    User.hasMany(models.user_carts, {
+      foreignKey: "user_id",
+    });
   };
 
   User.addHook("beforeCreate", async (user) => {
