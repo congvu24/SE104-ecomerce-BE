@@ -8,6 +8,7 @@ var shippingRouter = require("./shippingMethod");
 var cardRouter = require("./cardType");
 var discountRouter = require("./discount");
 var cartRouter = require("./cart");
+var analyticsRouter = require("./analytics");
 
 router.get("/", (req, res, next) => {
   res.send("hi");
@@ -20,5 +21,6 @@ router.use("/cart", cartRouter);
 router.use("/services/shipping", shippingRouter);
 router.use("/services/card", cardRouter);
 router.use("/services/discount", discountRouter);
+router.use("/analytics", analyticsRouter);
 
 module.exports = router;

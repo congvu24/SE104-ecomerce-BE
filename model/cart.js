@@ -33,7 +33,7 @@ const Cart = (sequelize) => {
       },
       card_id: {
         type: Sequelize.DataTypes.INTEGER,
-      }
+      },
     },
     {
       sequelize,
@@ -52,6 +52,10 @@ const Cart = (sequelize) => {
     });
     Cart.belongsTo(models.shipping_methods, {
       foreignKey: "shipping_method_id",
+      targetKey: "id",
+    });
+    Cart.belongsTo(models.user_addresses, {
+      foreignKey: "address",
       targetKey: "id",
     });
   };
