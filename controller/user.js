@@ -1,4 +1,15 @@
-const { User, Address, Card, CardType, Cart } = require("../model");
+const {
+  User,
+  Address,
+  Card,
+  CardType,
+  Cart,
+  Discount,
+  Product,
+  ProductVariant,
+  ProductImage,
+  CartItem,
+} = require("../model");
 var jwt = require("jsonwebtoken");
 const { comparePassword } = require("../utils/hashPassword");
 const {
@@ -261,6 +272,21 @@ const getAllOrder = async (req, res, next) => {
     const user_id = req.user.id;
     const orders = await Cart.findAll({
       where: { user_id: user_id },
+      include: [
+        {
+          model: Address,
+        },
+        {
+          model: Discount,
+        },
+        {
+          model: CartItem,
+          include: [
+            { model: Product, include: [{ model: ProductImage, as: "images" }] },
+            { model: ProductVariant },
+          ],
+        },
+      ],
     });
     res.json({
       status: "success",
@@ -268,6 +294,7 @@ const getAllOrder = async (req, res, next) => {
       data: orders,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       status: "failed",
       message: "Get order failed!",
@@ -286,5 +313,5 @@ module.exports = {
   removeCard,
   getAllCard,
   getAllOrder,
-  getAddress
+  getAddress,
 };
