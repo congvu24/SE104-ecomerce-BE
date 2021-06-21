@@ -89,9 +89,29 @@ const getAllDiscount = async (req, res, next) => {
   }
 };
 
+const getDiscountDetail = async (req, res, next) => {
+  try {
+    const code = req.params.code;
+    const discount = await Discount.findOne({ where: { code } });
+
+    res.json({
+      status: "success",
+      message: "Get discount successfull",
+      data: discount,
+    });
+  } catch (err) {
+    res.json({
+      status: "success",
+      message: "Get discount failed",
+      data: items,
+    });
+  }
+};
+
 module.exports = {
   createDiscount,
   editDiscount,
   deleteDiscount,
   getAllDiscount,
+  getDiscountDetail,
 };

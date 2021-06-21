@@ -156,6 +156,27 @@ const deleteAddress = async (req, res, next) => {
   }
 };
 
+const getAddress = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const result = await Address.findAll({
+      where: { user_id: user_id },
+    });
+    res.json({
+      status: "Success",
+      message: "Get address success!",
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "Failed",
+      message: "Get address failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
 const addCard = async (req, res, next) => {
   try {
     const user_id = req.user.id;
@@ -247,7 +268,6 @@ const getAllOrder = async (req, res, next) => {
       data: orders,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       status: "failed",
       message: "Get order failed!",
@@ -266,4 +286,5 @@ module.exports = {
   removeCard,
   getAllCard,
   getAllOrder,
+  getAddress
 };

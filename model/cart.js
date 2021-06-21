@@ -58,6 +58,9 @@ const Cart = (sequelize) => {
       foreignKey: "address",
       targetKey: "id",
     });
+    Cart.hasMany(models.cart_items, {
+      foreignKey: "cart_id",
+    });
   };
 
   return Cart;

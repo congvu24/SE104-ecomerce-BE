@@ -16,6 +16,7 @@ const Discount = (sequelize) => {
       },
       code: {
         type: Sequelize.DataTypes.STRING,
+        unique: true,
         allowNull: false,
       },
       exp: {

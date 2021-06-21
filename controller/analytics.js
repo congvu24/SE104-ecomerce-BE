@@ -6,6 +6,9 @@ const {
   Address,
   ShippingMethod,
   Product,
+  CartItem,
+  ProductVariant,
+  ProductImage,
 } = require("../model");
 const { Sequelize, Op } = require("sequelize");
 
@@ -55,6 +58,13 @@ const getOrders = async (req, res, next) => {
         },
         {
           model: ShippingMethod,
+        },
+        {
+          model: CartItem,
+          include: [
+            { model: ProductVariant },
+            { model: Product, include: [{ model: ProductImage, as: "images" }] },
+          ],
         },
       ],
     });

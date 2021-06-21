@@ -140,7 +140,7 @@ const checkoutCart = async (req, res, next) => {
     const value = await cartCheckout.validateAsync(req.body);
 
     const discount = await Discount.findOne({
-      where: { id: value.discount_id },
+      where: { code: value.discount },
     });
 
     const card = await Card.findOne({
