@@ -26,6 +26,10 @@ const Discount = (sequelize) => {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
+      max: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0
+      }
     },
     {
       sequelize,

@@ -83,12 +83,15 @@ const discount = Joi.object({
   code: Joi.string().required(),
   exp: Joi.string().required(),
   number: Joi.number().integer(),
+  max: Joi.number().integer(),
 });
 
 const cardSchema = Joi.object({
   card_type_id: Joi.number().integer().required(),
   cvv: Joi.number().integer().required(),
   number: Joi.string().required(),
+  date_exp: Joi.string().required(),
+  owner: Joi.string().required(),
 });
 
 module.exports = {

@@ -194,7 +194,6 @@ const addCard = async (req, res, next) => {
     const value = await cardSchema.validateAsync({
       ...req.body,
     });
-
     const newCard = await Card.create({
       ...value,
       user_id: user_id,
@@ -244,14 +243,19 @@ const getAllCard = async (req, res, next) => {
   try {
     const user_id = req.user.id;
 
-    const cards = await Card.findAll({
+    let cards = await Card.findAll({
       where: {
         user_id: user_id,
       },
-      attributes: ["number", "id"],
+      attributes: ["number", "id", "owner", "cvv", "date_exp"],
       include: [{ model: CardType, as: "card_type" }],
       nest: true,
     });
+
+    cards.forEach(item=>{
+      item.number =+ item.number.slice(0,4)  + ".XXXX.XXXX.XXXX" ;
+      item.cvv =item.cvv.slice(0,1) +"XX"  ;
+    })
 
     res.json({
       status: "success",
