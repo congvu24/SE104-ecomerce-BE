@@ -18,7 +18,7 @@ const getOrders = async (req, res, next) => {
   try {
     const { year, month } = req.params;
 
-    const result = await Cart.findAll({
+    let result = await Cart.findAll({
       where:
         year && month
           ? {
@@ -74,6 +74,11 @@ const getOrders = async (req, res, next) => {
         { model: Card, include: [{ model: CardType }] },
       ],
     });
+    await result.forEach(item=>{
+      item.user_card.number =+ item.user_card.number.slice(0,4)  + ".XXXX.XXXX.XXXX" ;
+      item.user_card.cvv =item.user_card.cvv.slice(0,1) +"XX"  ;
+    })
+
 
     res.json({
       status: "success",
