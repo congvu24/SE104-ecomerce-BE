@@ -252,6 +252,7 @@ const checkoutCart = async (req, res, next) => {
     if(discount != null){
       const amountDiscount = (sumMoneyProducts * discount.percentage)> discount.max ? discount.max : (sumMoneyProducts * discount.percentage);
       amountWithDiscount = sumMoneyProducts - amountDiscount;
+      console.log(amountWithDiscount);
       amount = amountWithDiscount + amountWithDiscount * card.card_type.fee + amountWithDiscount * shippingMethod.fee;
       discount.number = discount.number == 1 ? 0 : discount.number - 1;
       await discount.save();
@@ -325,7 +326,7 @@ const cancelOrder = async (req, res, next) => {
   }
 };
 
-const orderStatus = ["pending", "confirm", "success", "cancel"];
+const orderStatus = ["pending", "confirm", "success", "cancel", "complete"];
 const changeOrderStatus = async (req, res, next) => {
   try {
     const id = req.params.id;

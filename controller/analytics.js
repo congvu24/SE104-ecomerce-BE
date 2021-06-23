@@ -9,6 +9,8 @@ const {
   CartItem,
   ProductVariant,
   ProductImage,
+  Card,
+  CardType,
 } = require("../model");
 const { Sequelize, Op } = require("sequelize");
 
@@ -63,9 +65,13 @@ const getOrders = async (req, res, next) => {
           model: CartItem,
           include: [
             { model: ProductVariant },
-            { model: Product, include: [{ model: ProductImage, as: "images" }] },
+            {
+              model: Product,
+              include: [{ model: ProductImage, as: "images" }],
+            },
           ],
         },
+        { model: Card, include: [{ model: CardType }] },
       ],
     });
 
