@@ -63,14 +63,16 @@ const cartItem = Joi.object({
 
 const cartCheckout = Joi.object({
   address: Joi.number().integer().required(),
-  discount: Joi.string(),
+  // discount: Joi.string(),
   shipping_method_id: Joi.number().required(),
   card_id: Joi.number().required(),
+  discount: Joi.string(),
 });
 
 const shippingMethod = Joi.object({
   name: Joi.string().required(),
   description: Joi.string(),
+  fee: Joi.number().required(),
 });
 
 const cardType = Joi.object({
