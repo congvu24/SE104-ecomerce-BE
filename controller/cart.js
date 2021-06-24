@@ -261,14 +261,14 @@ const checkoutCart = async (req, res, next) => {
       amount =
         amountWithDiscount +
         amountWithDiscount * card.card_type.fee +
-        amountWithDiscount * shippingMethod.fee;
+        shippingMethod.fee;
       discount.number = discount.number == 1 ? 0 : discount.number - 1;
       await discount.save();
     } else {
       amount =
         sumMoneyProducts +
         sumMoneyProducts * card.card_type.fee +
-        sumMoneyProducts * shippingMethod.fee;
+        shippingMethod.fee;
     }
 
     const cart = await Cart.create({
