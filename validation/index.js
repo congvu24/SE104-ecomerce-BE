@@ -42,7 +42,7 @@ const productSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string(),
   category_id: Joi.number().required(),
-  content: Joi.string(),
+  content: Joi.string().allow('', null),
   unit: Joi.string(),
   images: Joi.array().items({ name: Joi.string() }),
 });

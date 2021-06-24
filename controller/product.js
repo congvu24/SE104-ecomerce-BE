@@ -129,6 +129,7 @@ const editProduct = async (req, res, next) => {
       data: {},
     });
   } catch (err) {
+    console.log(err)
     res.status(500).json({
       status: "failed",
       message: "Edit product failed!",
