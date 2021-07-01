@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const { Op } = require("sequelize");
+const { sendMailConfirmOrder } = require("../helper/sendMail");
 const {
   Product,
   ProductImage,
@@ -250,25 +251,30 @@ const checkoutCart = async (req, res, next) => {
 
     let amountWithDiscount = 0;
     let amount = 0;
+    let discountMoney = 0;
+    let card_fee = 0;
+    let shipping_fee = 0;
 
     if (discount != null) {
-      const amountDiscount =
+      const discountMoney =
         sumMoneyProducts * discount.percentage > discount.max
           ? discount.max
           : sumMoneyProducts * discount.percentage;
-      amountWithDiscount = sumMoneyProducts - amountDiscount;
-      console.log(amountWithDiscount);
-      amount =
-        amountWithDiscount +
-        amountWithDiscount * card.card_type.fee +
-        shippingMethod.fee;
+
+      amountWithDiscount = sumMoneyProducts - discountMoney;
+      card_fee = amountWithDiscount * card.card_type.fee;
+      shipping_fee = amountWithDiscount >= 1000000 ? 0 : shippingMethod.fee;
+
+      amount = amountWithDiscount + card_fee + shipping_fee;
+
       discount.number = discount.number == 1 ? 0 : discount.number - 1;
+
       await discount.save();
     } else {
-      amount =
-        sumMoneyProducts +
-        sumMoneyProducts * card.card_type.fee +
-        shippingMethod.fee;
+      card_fee = sumMoneyProducts * card.card_type.fee;
+      shipping_fee = sumMoneyProducts > 1000000 ? 0 : shippingMethod.fee;
+
+      amount = sumMoneyProducts + card_fee + shipping_fee;
     }
 
     const cart = await Cart.create({
@@ -277,7 +283,12 @@ const checkoutCart = async (req, res, next) => {
       status: "pending",
       amount: amount,
       discount_id: discount ? discount.id : null,
+      card_fee: card_fee,
+      shipping_fee: shipping_fee,
+      discount_money: discountMoney,
+      merchandise_money: sumMoneyProducts,
     });
+
     await CartItem.update(
       { cart_id: cart.id },
       {
@@ -293,6 +304,8 @@ const checkoutCart = async (req, res, next) => {
       message: "Checkout item successfull",
       data: cart,
     });
+
+    sendMailConfirmOrder(cart.id);
   } catch (err) {
     res.status(442).json({
       status: "failed",

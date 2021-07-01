@@ -18,6 +18,22 @@ const Cart = (sequelize) => {
         type: Sequelize.DataTypes.FLOAT,
         defaultValue: 0,
       },
+      card_fee: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      shipping_fee: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      discount_money: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      merchandise_money: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
       status: {
         type: Sequelize.DataTypes.STRING,
       },
