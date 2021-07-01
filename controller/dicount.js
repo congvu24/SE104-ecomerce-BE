@@ -102,7 +102,7 @@ const getDiscountDetail = async (req, res, next) => {
   } catch (err) {
     res.json({
       status: "success",
-      message: "Get discount failed",
+      message: err.message ?? "Get discount failed!",
       data: {},
     });
   }
