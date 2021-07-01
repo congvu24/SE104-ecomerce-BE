@@ -103,7 +103,7 @@ const getDiscountDetail = async (req, res, next) => {
     res.json({
       status: "success",
       message: "Get discount failed",
-      data: items,
+      data: {},
     });
   }
 };
