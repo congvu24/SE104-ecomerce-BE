@@ -16,6 +16,12 @@ const Card = (sequelize) => {
       number: {
         type: Sequelize.DataTypes.STRING,
       },
+      owner: {
+        type: Sequelize.DataTypes.STRING,
+      },
+      date_exp: {
+        type: Sequelize.DataTypes.STRING,
+      },  
       cvv: {
         type: Sequelize.DataTypes.STRING,
       },

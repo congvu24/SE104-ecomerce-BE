@@ -17,6 +17,10 @@ const ShippingMethod = (sequelize) => {
       description: {
         type: Sequelize.DataTypes.STRING,
       },
+      fee: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0
+      }
     },
     {
       sequelize,

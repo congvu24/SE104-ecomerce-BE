@@ -8,11 +8,11 @@ const {
 
 var router = express.Router();
 const authenticateToken = require("../middleware/authMiddleware");
-
+const adminAuth = require("../middleware/adminAuthMiddleware");
 
 router.get("/", getAllShippingMethod);
-router.post("/", createShippingMethod);
-router.patch("/:id", editShippingMethod);
-router.delete("/:id", deleteShippingMethod);
+router.post("/", adminAuth, createShippingMethod);
+router.patch("/:id", adminAuth, editShippingMethod);
+router.delete("/:id", adminAuth, deleteShippingMethod);
 
 module.exports = router;

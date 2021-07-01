@@ -21,9 +21,6 @@ const User = (sequelize) => {
         type: Sequelize.DataTypes.STRING(50),
         allowNull: false,
       },
-      age: {
-        type: Sequelize.DataTypes.INTEGER,
-      },
       avatar: {
         type: Sequelize.DataTypes.STRING(50),
       },
@@ -39,6 +36,24 @@ const User = (sequelize) => {
       address: {
         type: Sequelize.DataTypes.STRING,
       },
+      phone: {
+        type: Sequelize.DataTypes.STRING,
+      },
+      role: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "user",
+        allowNull: false,
+      },
+      birthYear: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      resetToken: {
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      lastAccess: {
+        type: Sequelize.DataTypes.STRING,
+      },
     },
     {
       sequelize,
@@ -51,6 +66,12 @@ const User = (sequelize) => {
       foreignKey: "user_id",
     });
     User.hasMany(models.cart_items, {
+      foreignKey: "user_id",
+    });
+    User.hasMany(models.user_carts, {
+      foreignKey: "user_id",
+    });
+    User.hasMany(models.user_cards, {
       foreignKey: "user_id",
     });
   };

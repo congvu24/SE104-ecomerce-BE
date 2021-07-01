@@ -17,9 +17,15 @@ const Product = (sequelize) => {
       description: {
         type: Sequelize.DataTypes.TEXT,
       },
+      content: {
+        type: Sequelize.DataTypes.TEXT,
+      },
       category_id: {
         type: Sequelize.DataTypes.INTEGER,
       },
+      unit: {
+        type: Sequelize.DataTypes.STRING
+      }
     },
     {
       sequelize,

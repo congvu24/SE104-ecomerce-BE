@@ -18,6 +18,22 @@ const Cart = (sequelize) => {
         type: Sequelize.DataTypes.FLOAT,
         defaultValue: 0,
       },
+      card_fee: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      shipping_fee: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      discount_money: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      merchandise_money: {
+        type: Sequelize.DataTypes.FLOAT,
+        defaultValue: 0,
+      },
       status: {
         type: Sequelize.DataTypes.STRING,
       },
@@ -33,7 +49,7 @@ const Cart = (sequelize) => {
       },
       card_id: {
         type: Sequelize.DataTypes.INTEGER,
-      }
+      },
     },
     {
       sequelize,
@@ -53,6 +69,17 @@ const Cart = (sequelize) => {
     Cart.belongsTo(models.shipping_methods, {
       foreignKey: "shipping_method_id",
       targetKey: "id",
+    });
+    Cart.belongsTo(models.user_addresses, {
+      foreignKey: "address",
+      targetKey: "id",
+    });
+    Cart.belongsTo(models.user_cards, {
+      foreignKey: "card_id",
+      targetKey: "id",
+    });
+    Cart.hasMany(models.cart_items, {
+      foreignKey: "cart_id",
     });
   };
 

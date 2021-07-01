@@ -1,4 +1,15 @@
-const { User, Address, Card, CardType, Cart } = require("../model");
+const {
+  User,
+  Address,
+  Card,
+  CardType,
+  Cart,
+  Discount,
+  Product,
+  ProductVariant,
+  ProductImage,
+  CartItem,
+} = require("../model");
 var jwt = require("jsonwebtoken");
 const { comparePassword } = require("../utils/hashPassword");
 const {
@@ -17,12 +28,24 @@ const createUser = async (req, res, next) => {
 
     const newUser = await User.create({
       ...value,
+      role: "user",
     });
+    const defaultAddress = await Address.create({
+      user_id: newUser.id,
+      name: "Default Address",
+      address: value.address,
+      phone: value.phone,
+    });
+
+    const token = await jwt.sign(
+      { email: newUser.email, id: newUser.id, role: newUser.role },
+      process.env.JWT_SECRET
+    );
 
     res.json({
       status: "success",
       message: "Create user successfull",
-      data: { ...newUser.dataValues },
+      data: { token },
     });
   } catch (err) {
     res.status(442).json({
@@ -46,7 +69,7 @@ const login = async (req, res, next) => {
       const compare = await comparePassword(value.password, user.password);
       if (compare == true) {
         const token = await jwt.sign(
-          { email: user.email, id: user.id },
+          { email: user.email, id: user.id, role: user.role },
           process.env.JWT_SECRET
         );
         res.json({
@@ -69,12 +92,12 @@ const login = async (req, res, next) => {
 
 const getProfile = async (req, res, next) => {
   try {
-    const user = await User.findAll({
+    const user = await User.findOne({
       attributes: [
         "id",
         "email",
         "fullname",
-        "age",
+        "birthYear",
         "avatar",
         "sex",
         "identify_number",
@@ -144,13 +167,33 @@ const deleteAddress = async (req, res, next) => {
   }
 };
 
+const getAddress = async (req, res, next) => {
+  try {
+    const user_id = req.user.id;
+    const result = await Address.findAll({
+      where: { user_id: user_id },
+    });
+    res.json({
+      status: "Success",
+      message: "Get address success!",
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "Failed",
+      message: "Get address failed!",
+      data: err.details ?? {},
+    });
+  }
+};
+
 const addCard = async (req, res, next) => {
   try {
     const user_id = req.user.id;
     const value = await cardSchema.validateAsync({
       ...req.body,
     });
-
     const newCard = await Card.create({
       ...value,
       user_id: user_id,
@@ -200,14 +243,19 @@ const getAllCard = async (req, res, next) => {
   try {
     const user_id = req.user.id;
 
-    const cards = await Card.findAll({
+    let cards = await Card.findAll({
       where: {
         user_id: user_id,
       },
-      attributes: ["number", "id"],
+      attributes: ["number", "id", "owner", "cvv", "date_exp"],
       include: [{ model: CardType, as: "card_type" }],
       nest: true,
     });
+
+    cards.forEach(item=>{
+      item.number =+ item.number.slice(0,4)  + ".XXXX.XXXX.XXXX" ;
+      item.cvv =item.cvv.slice(0,1) +"XX"  ;
+    })
 
     res.json({
       status: "success",
@@ -228,6 +276,21 @@ const getAllOrder = async (req, res, next) => {
     const user_id = req.user.id;
     const orders = await Cart.findAll({
       where: { user_id: user_id },
+      include: [
+        {
+          model: Address,
+        },
+        {
+          model: Discount,
+        },
+        {
+          model: CartItem,
+          include: [
+            { model: Product, include: [{ model: ProductImage, as: "images" }] },
+            { model: ProductVariant },
+          ],
+        },
+      ],
     });
     res.json({
       status: "success",
@@ -254,4 +317,5 @@ module.exports = {
   removeCard,
   getAllCard,
   getAllOrder,
+  getAddress,
 };

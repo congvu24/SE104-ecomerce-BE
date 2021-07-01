@@ -17,6 +17,9 @@ const Category = (sequelize) => {
       description: {
         type: Sequelize.DataTypes.STRING,
       },
+      image: {
+        type: Sequelize.DataTypes.STRING,
+      }
     },
     {
       sequelize,
@@ -29,6 +32,19 @@ const Category = (sequelize) => {
       foreignKey: "category_id",
     });
   };
+
+  Category.addHook("afterFind", async (result, cb) => {
+    if (result.constructor === Array) {
+      var arrayLength = result.length;
+      for (var i = 0; i < arrayLength; i++) {
+        if(result[i].image != null)
+        result[i].dataValues.image = "/image/category/" + result[i].image;
+      }
+    } else {
+      result.dataValues.image = "/image/category/" + result.image;
+    }
+    return result;
+  });
 
   return Category;
 };

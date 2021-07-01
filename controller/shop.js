@@ -9,7 +9,11 @@ const getProductDetail = async (req, res, next) => {
 
     const product = await Product.findOne({
       where: { id: value.value },
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
       nest: true,
     });
 
@@ -34,7 +38,12 @@ const searchByName = async (req, res, next) => {
 
     const products = await Product.findAll({
       where: { name: { [Op.like]: "%" + value.value + "%" } },
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
+
       nest: true,
     });
 
@@ -56,7 +65,12 @@ const getNewProduct = async (req, res, next) => {
   try {
     const products = await Product.findAll({
       order: [["createdAt", "DESC"]],
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
+
       nest: true,
     });
 
@@ -103,7 +117,12 @@ const getProductOfCategory = async (req, res, next) => {
     const products = await Product.findAll({
       where: { category_id: value.value },
       order: [["createdAt", "DESC"]],
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
+
       nest: true,
     });
 
@@ -125,7 +144,12 @@ const getRecommendProduct = async (req, res, next) => {
   try {
     const products = await Product.findAll({
       order: [["createdAt", "DESC"]],
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
+
       nest: true,
     });
 
@@ -163,7 +187,12 @@ const getRelateProduct = async (req, res, next) => {
         },
       },
       order: [["createdAt", "DESC"]],
-      include: [ProductVariant, { model: ProductImage, as: "images" }],
+      include: [
+        ProductVariant,
+        { model: ProductImage, as: "images" },
+        Category,
+      ],
+
       nest: true,
     });
 

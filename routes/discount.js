@@ -4,13 +4,17 @@ const {
   createDiscount,
   editDiscount,
   deleteDiscount,
+  getDiscountDetail,
 } = require("../controller/dicount");
+
+const adminAuth = require("../middleware/adminAuthMiddleware");
 
 var router = express.Router();
 
-router.get("/", getAllDiscount);
-router.post("/", createDiscount);
-router.patch("/:id", editDiscount);
-router.delete("/:id", deleteDiscount);
+router.get("/:code", getDiscountDetail);
+router.get("/", adminAuth, getAllDiscount);
+router.post("/", adminAuth, createDiscount);
+router.patch("/:id", adminAuth, editDiscount);
+router.delete("/:id", adminAuth, deleteDiscount);
 
 module.exports = router;
