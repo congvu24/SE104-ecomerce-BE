@@ -64,15 +64,23 @@ const User = (sequelize) => {
   User.associate = ({ models }) => {
     User.hasMany(models.user_addresses, {
       foreignKey: "user_id",
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
     User.hasMany(models.cart_items, {
       foreignKey: "user_id",
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
     User.hasMany(models.user_carts, {
       foreignKey: "user_id",
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
     User.hasMany(models.user_cards, {
       foreignKey: "user_id",
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
   };
 

@@ -31,6 +31,8 @@ const Address = (sequelize) => {
     Address.belongsTo(models.users, {
       foreignKey: "user_id", // column in this table
       targetKey: "id", // column in another table
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
   };
 
