@@ -14,7 +14,9 @@ const ShippingMethod = require("./shippingMethod");
 const User = require("./user");
 
 var sequelize = new Sequelize(
-  process.env.DB_DATABASE,
+  process.env.NODE_ENV == "TESTING"
+    ? process.env.DB_DATABASE + "-test"
+    : process.env.DB_DATABASE,
   process.env.DB_USERNAME,
   process.env.DB_PASSWORD,
   {
